@@ -3,13 +3,15 @@ package timdev.amigoscode.customer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import timdev.amigoscode.clients.fraud.FraudCheckResponse;
+import timdev.amigoscode.clients.fraud.FraudClient;
 
 @Service
 @AllArgsConstructor
 public class CustomerService {
 
 	private final CustomerRepository customerRepository;
-	private final RestTemplate restTemplate;
+	private final FraudClient fraudClient;
 
 	public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
 		final Customer customer = Customer.builder()
@@ -24,12 +26,7 @@ public class CustomerService {
 		// we need to saveAndFlush to get a customerId
 		customerRepository.saveAndFlush(customer);
 
-		final FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-				"http://FRAUD/api/v1/fraud-check/{customerId}",
-				FraudCheckResponse.class,
-				customer.getId()
-		);
-
+		final FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
 		if (fraudCheckResponse.isFraudster()) {
 			throw new IllegalStateException("fraudster");
 		}
