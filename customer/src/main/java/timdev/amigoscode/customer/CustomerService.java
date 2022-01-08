@@ -1,17 +1,21 @@
 package timdev.amigoscode.customer;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import timdev.amigoscode.clients.fraud.FraudCheckResponse;
 import timdev.amigoscode.clients.fraud.FraudClient;
+import timdev.amigoscode.clients.notification.NotificationClient;
+import timdev.amigoscode.clients.notification.NotificationResponse;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class CustomerService {
 
 	private final CustomerRepository customerRepository;
 	private final FraudClient fraudClient;
+	private final NotificationClient notificationClient;
 
 	public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
 		final Customer customer = Customer.builder()
@@ -31,6 +35,9 @@ public class CustomerService {
 			throw new IllegalStateException("fraudster");
 		}
 
-		// todo: send notification
+		final NotificationResponse notificationResponse = notificationClient.notify(customer.getId());
+		if (!notificationResponse.isSent()) {
+			log.warn("Notification not successfully sent to customer {}", customer.getId());
+		}
 	}
 }
