@@ -29,5 +29,8 @@ Let's use Eureka Server
 In our projects the diagram will looks like that
 ![eureka-service-discovery](resources/eureka-service-discovery.png)
 
+Eureka Server running on 8761.  
+We see dashboard  
+
 But we should understand that Eureka Server now seems like a bottle-neck.   
-If it falls down, all microservices will fail
+If it falls down, all microservices will fail. 
