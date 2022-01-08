@@ -31,6 +31,13 @@ In our projects the diagram will looks like that
 
 Eureka Server running on 8761.  
 We see dashboard  
+Configure Customer microservice as a Eureka Client  
+Then start two instances of Customer MS
+1. in Idea `EditConfigurations` of CustomerApplication
+2. duplicate it, rename as CustomerApplication2
+3. in `Configuration/Environment` set `ProgramArguments = --server.port=8085`
+4. start CustomerApplication2
+5. we see in Eureka Server Dashboard to instances
 
 But we should understand that Eureka Server now seems like a bottle-neck.   
 If it falls down, all microservices will fail. 
