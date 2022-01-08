@@ -6,7 +6,11 @@
 
 	<groupId>timdev.amigoscode</groupId>
 	<artifactId>amigosservices</artifactId>
+	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
+	<modules>
+		<module>customer</module>
+	</modules>
 
 	<name>amigosservices</name>
 	<url>https://www.timdev-learning.com</url>
