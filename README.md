@@ -11,3 +11,8 @@ add NewServer with any name and hostName/address = postgres
 we set `hostName` as `postgres`(it's a `network`), 
 because `pgAdmin service` and `postgres service` 
 connect with each other inside the `docker container` by `network = postgres`
+
+###register new customer
+`curl --location --request POST 'localhost:8080/api/v1/customers' 
+--header 'Content-Type: application/json' 
+--data-raw '{"firstName": "tim","lastName": "dzha","email": "tim@gmail.com"}'`
