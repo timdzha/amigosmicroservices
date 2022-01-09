@@ -2,7 +2,9 @@ package timdev.amigoscode.notification;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import timdev.amigoscode.clients.notification.NotificationResponse;
+import timdev.amigoscode.clients.notification.NotificationRequest;
+
+import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -10,11 +12,14 @@ public class NotificationService {
 
 	private final NotificationRepository notificationRepository;
 
-	public NotificationResponse notify(Integer customerId) {
-		notificationRepository.save(Notification.builder()
-				.customerId(customerId)
-				.message("")
-				.build());
-		return new NotificationResponse(customerId, true);
+	public void send(NotificationRequest notificationRequest) {
+		notificationRepository.save(
+				Notification.builder()
+						.toCustomerId(notificationRequest.toCustomerId())
+						.toCustomerEmail(notificationRequest.toCustomerEmail())
+						.message(notificationRequest.message())
+						.sender(notificationRequest.sender())
+						.sentAt(LocalDateTime.now())
+						.build());
 	}
 }

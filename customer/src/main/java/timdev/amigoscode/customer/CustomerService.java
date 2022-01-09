@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import timdev.amigoscode.clients.fraud.FraudCheckResponse;
 import timdev.amigoscode.clients.fraud.FraudClient;
 import timdev.amigoscode.clients.notification.NotificationClient;
-import timdev.amigoscode.clients.notification.NotificationResponse;
+import timdev.amigoscode.clients.notification.NotificationRequest;
 
 @Service
 @Slf4j
@@ -35,9 +35,12 @@ public class CustomerService {
 			throw new IllegalStateException("fraudster");
 		}
 
-		final NotificationResponse notificationResponse = notificationClient.notify(customer.getId());
-		if (!notificationResponse.isSent()) {
-			log.warn("Notification not successfully sent to customer {}", customer.getId());
-		}
+		// todo: make it async. add to queue
+		notificationClient.sendNotification(
+				new NotificationRequest(
+						customer.getFirstName(),
+						customer.getId(),
+						customer.getEmail(),
+						"Hello"));
 	}
 }
