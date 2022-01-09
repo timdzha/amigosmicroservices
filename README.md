@@ -12,6 +12,7 @@ add NewServer with any name and hostName/address = postgres
 we set `hostName` as `postgres`(it's a `network`), 
 because `pgAdmin service` and `postgres service` 
 connect with each other inside the `docker container` by `network = postgres`
+use `docker logs {container name}` to see logs
 
 ### Register new customer by curl request using git bash
 `curl --location --request POST 'localhost:8080/api/v1/customers' --header 'Content-Type: application/json' --data-raw '{"firstName": "tim","lastName": "dzha","email": "tim@gmail.com"}'`
@@ -87,6 +88,12 @@ INFO [notification,36d9913310cf03f5,f7e8b33e7da6873f]
 которые добавляют различную метаинформацию в логи, 
 позволяют получать «сквозные» логи по ошибкам, 
 производят семплинг запросов и отправляют их на Zipkin-сервер. 
+
+#### Zipkin Server
+[link to Zipkin](https://zipkin.io/pages/quickstart)  
+add to docker compose file zipkin service and start  
+[Zipkin runs on http://127.0.0.1:9411/zipkin/](http://127.0.0.1:9411/zipkin/)  
+
 С помощью интерфейса Zipkin уже можно удобно искать «топ самых медленных запросов»,
 вычислять «грязных утят» — конкретные тормозящие сервисы,
 быстро оценивать ситуацию и локализовывать проблему.
