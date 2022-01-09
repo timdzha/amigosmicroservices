@@ -7,6 +7,14 @@
 ### Register new customer by curl request using git bash
 `curl --location --request POST 'localhost:8080/api/v1/customers' --header 'Content-Type: application/json' --data-raw '{"firstName": "tim","lastName": "dzha","email": "tim@gmail.com"}'`
 
+### Register new customer by curl via Load balancer
+Load Balancer on port 8083
+`curl --location --request POST 'localhost:8083/api/v1/customers' --header 'Content-Type: application/json' --data-raw '{"firstName": "tim","lastName": "dzha","email": "tim@gmail.com"}'`
+
+check result on 
+microservices - Eureka Server http://localhost:8761/ 
+tracing - Zipkin http://localhost:9411/zipkin
+
 ## Spring Cloud
 [link to habr post](https://habr.com/ru/company/jugru/blog/341026/)
 Spring Cloud — это модуль Spring для разработки микросервисной архитектуры.
