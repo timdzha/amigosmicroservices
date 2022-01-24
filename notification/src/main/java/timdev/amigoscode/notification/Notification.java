@@ -12,11 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import java.time.LocalDateTime;
 
+
 @Data
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Notification {
 
 	@Id
