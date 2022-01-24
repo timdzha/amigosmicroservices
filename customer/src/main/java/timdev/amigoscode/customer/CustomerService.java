@@ -3,9 +3,9 @@ package timdev.amigoscode.customer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import timdev.amigoscode.amqp.RabbitMqMessageProducer;
 import timdev.amigoscode.clients.fraud.FraudCheckResponse;
 import timdev.amigoscode.clients.fraud.FraudClient;
-import timdev.amigoscode.clients.notification.NotificationClient;
 import timdev.amigoscode.clients.notification.NotificationRequest;
 
 @Service
@@ -15,7 +15,7 @@ public class CustomerService {
 
 	private final CustomerRepository customerRepository;
 	private final FraudClient fraudClient;
-	private final NotificationClient notificationClient;
+	private final RabbitMqMessageProducer rabbitMqMessageProducer;
 
 	public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
 		final Customer customer = Customer.builder()
@@ -35,12 +35,15 @@ public class CustomerService {
 			throw new IllegalStateException("fraudster");
 		}
 
-		// todo: make it async. add to queue
-		notificationClient.sendNotification(
-				new NotificationRequest(
-						customer.getFirstName(),
-						customer.getId(),
-						customer.getEmail(),
-						"Hello"));
+		final NotificationRequest notificationRequest = new NotificationRequest(
+				customer.getFirstName(),
+				customer.getId(),
+				customer.getEmail(),
+				"Hello");
+
+		rabbitMqMessageProducer.publish(
+				notificationRequest,
+				"internal.exchange",
+				"internal.notification.routing-key");
 	}
 }
