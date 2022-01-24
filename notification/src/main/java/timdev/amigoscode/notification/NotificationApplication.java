@@ -25,10 +25,11 @@ public class NotificationApplication {
 			NotificationConfig notificationConfig) {
 		return args -> {
 			producer.publish(
-					"foo",
+					new Person("user", 28),
 					notificationConfig.getInternalExchange(),
 					notificationConfig.getInternalNotificationRoutingKey());
 		};
 	}
 
+	record Person(String name, int age) {}
 }
