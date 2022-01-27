@@ -12,3 +12,10 @@ The POM for timdev.amigoscode:clients:jar:1.0-SNAPSHOT is missing, no dependency
 `java -jar .\api-gateway\target\api-gateway-1.0-SNAPSHOT.jar`
 
 https://stackoverflow.com/questions/54867295/springboot-no-main-manifest-attribute-maven
+
+- create an access token in docker hub
+- login to own docker hub account
+`docker login`
+- clean and package with profile `docker-build-image`
+`mvn clean package -P build-docker-image`
+same as in IDEA Maven-Lifecycle-clean-then-package
