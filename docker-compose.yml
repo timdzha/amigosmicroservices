@@ -60,6 +60,23 @@ services:
       # login-pass: guest
       - "15672:15672"
 
+  eureka-server:
+    image: 345etedfgdfg/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - zipkin
+
+  api-gateway:
+    image: 345etedfgdfg/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8083:8083"
+    depends_on:
+      - zipkin
+      - eureka-server
+
 networks:
   postgres:
     driver: bridge
